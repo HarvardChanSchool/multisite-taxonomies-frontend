@@ -40,10 +40,6 @@ class Multisite_Taxonomy_Archive_Pages {
 
 		// Filter for the body class for the archive pages.
 		add_filter( 'body_class', array( $this, 'archive_pages_body_class' ) );
-
-		// pagination via ajax
-		add_action( 'wp_ajax_multitaxo_ajax_pagination', array( $this, 'ajax_do_multisite_term_posts_list' ) );
-		add_action( 'wp_ajax_nopriv_multitaxo_ajax_pagination', array( $this, 'ajax_do_multisite_term_posts_list' ) );
 	}
 
 	/**
@@ -488,10 +484,9 @@ class Multisite_Taxonomy_Archive_Pages {
 	 * @param  int            $current_page The current page number.
 	 * @param  int            $number_of_pages The total number of pages.
 	 * @param  Multisite_Term $multisite_term The multisite term for which we display the archive page.
-	 * @param  bool           $is_ajax Is the pagination ajax pagination. Deafult: false.
 	 * @return string The html string for page pagination.
 	 */
-	public static function do_multisite_term_archive_page_pagination( $current_page, $number_of_pages, $multisite_term, $is_ajax = false ) {
+	public static function do_multisite_term_archive_page_pagination( $current_page, $number_of_pages, $multisite_term ) {
 		// setup the params for pagination.
 		$pagination_args = array(
 			'format'    => '%#%',
@@ -505,11 +500,9 @@ class Multisite_Taxonomy_Archive_Pages {
 			'next_text' => __( 'Next &raquo;', 'multitaxo' ),
 			'type'      => 'plain',
 		);
-		if ( true === $is_ajax ) {
-			$pagination_args ['base'] = admin_url( 'admin-ajax.php' ) . '?action=multitaxo_ajax_pagination&nonce=' . wp_create_nonce( 'multitaxo-shortcode-mswwpq-ajax' ) . '&multisite_term_id=' . $multisite_term->multisite_term_id . '&current_page=%_%';
-		} else {
-			$pagination_args ['base'] = get_multisite_term_link( $multisite_term ) . '%_%/';
-		}
+
+		$pagination_args ['base'] = get_multisite_term_link( $multisite_term ) . '%_%/';
+
 		// add the pagination to the page.
 		ob_start();
 		?>
@@ -522,102 +515,6 @@ class Multisite_Taxonomy_Archive_Pages {
 		<?php
 		// Get our generated page content.
 		$page_content = ob_get_clean();
-		return $page_content;
-	}
-
-	/**
-	 * Get list of posts via ajax.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public static function ajax_do_multisite_term_posts_list() {
-		if ( isset( $_GET['nonce'] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'hsph-plugin-tagging-shortcode-mswwpq-ajax' ) ) {
-
-			if ( isset( $_GET['multisite_term_id'] ) && is_numeric( sanitize_key( wp_unslash( $_GET['multisite_term_id'] ) ) ) ) {
-				$multisite_term = get_multisite_term( absint( sanitize_key( wp_unslash( $_GET['multisite_term_id'] ) ) ) );
-
-				if ( is_a( $multisite_term, 'Multisite_Term' ) ) {
-					if ( isset( $_GET['current_page'] ) && is_numeric( sanitize_key( $_GET['current_page'] ) ) ) {
-						$current_page = sanitize_key( wp_unslash( $_GET['current_page'] ) );
-					} else {
-						$current_page = 1;
-					}
-					$result = array(
-						'result'  => true,
-						'content' => self::get_multisite_term_posts_list( $multisite_term, true, $current_page, 10 ),
-					);
-				} else {
-					$result = array(
-						'result'  => false,
-						'content' => 'Invalid multisite term.',
-					);
-				}
-			} else {
-				$result = array(
-					'result'  => false,
-					'content' => 'Missing multisite term id.',
-				);
-			}
-		} else {
-			$result = array(
-				'result'  => false,
-				'content' => 'Request didn\'t pass security checks.',
-			);
-		}
-		echo wp_json_encode( $result );
-		exit;
-	}
-
-	/**
-	 * Generated the list of posts tagged with $multisite_term_id.
-	 *
-	 * @access public
-	 * @param Multisite_Term $multisite_term The multisite term id.
-	 * @param bool           $display_pagination Display the pagination or not.
-	 * @param int            $current_page The current page number.
-	 * @param int            $posts_per_page The number of post per page for pagination.
-	 * @param array          $atts Additional attributes to be passed to the multisite query args.
-	 * @return string $page_content The generated list of posts.
-	 */
-	public static function get_multisite_term_posts_list( $multisite_term, $display_pagination = true, $current_page = 1, $posts_per_page = 10, $atts = array() ) {
-		$page_content = '';
-
-		// Add defaults for exclude and maybe other future args.
-		$defaults = array(
-			'exclude' => array(),
-		);
-
-		$args = wp_parse_args( $atts, $defaults );
-
-		// Get the posts for our multisite term using Multisite_WP_Query.
-		$query = new Multisite_WP_Query(
-			array(
-				'multisite_term_ids' => array( $multisite_term->multisite_term_id ),
-				'nopaging'           => true,
-				'orderby'            => 'post_date',
-				'order'              => 'DESC',
-				'exclude'            => $args['exclude'],
-			)
-		);
-		if ( isset( $query->posts ) && is_array( $query->posts ) && ! empty( $query->posts ) ) {
-			$number_of_pages = (int) ceil( count( $query->posts ) / $posts_per_page );
-			$posts           = array_chunk( $query->posts, $posts_per_page );
-			// Substract 1 to page number to match php array keys.
-			$current_page_index = $current_page - 1;
-			if ( isset( $posts[ $current_page_index ] ) ) {
-				$page_content .= self::do_multisite_term_posts_list( $posts[ $current_page_index ] );
-				if ( true === $display_pagination ) {
-					$page_content .= self::do_multisite_term_archive_page_pagination( $current_page, $number_of_pages, $multisite_term, true );
-				}
-			} else {
-				// TODO: Once the query and pagination var are moved to constructor check this earlier and return proper 404.
-				$page_content .= __( 'This multisite term currently has no post.', 'hsph-plugin-tagging' );
-			}
-		} else {
-			// TODO: Once the query and pagination var are moved to constructor check this earlier and return proper 404.
-			$page_content .= __( 'This multisite term currently has no post.', 'hsph-plugin-tagging' );
-		}
 		return $page_content;
 	}
 }
