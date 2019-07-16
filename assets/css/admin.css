@@ -1,0 +1,53 @@
+.ui-tabs-vertical {
+    clear: both;
+    overflow: hidden;
+}
+
+.ui-tabs-vertical .ui-tabs-nav {
+    padding: .2em 0 .2em 0;
+    float: left;
+    width: 18%;
+    margin-left: 0;
+    margin-right: -2%;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li {
+    clear: left;
+    margin: 5px 0 5px 0;
+    border: solid 1px #ddd;
+    background-color: #fdfdfd;
+    padding: 7px 0 7px 7px;
+    z-index: 9;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li a {
+    display: block;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+    background-color: #fff;
+    border-right-color: #fff;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+    padding: 0 5%;
+    float: right;
+    width: 72%;
+    border-left: solid 1px #ddd;
+}
+
+.multi-tax-flat ul li {
+    display: inline-block;
+    margin-right: 18px;
+}
+
+.multi-tax-hierarchical ul ul {
+    margin-left: 18px;
+}
+
+.multi-tax-hierarchical li {
+    margin: 0;
+    padding: 0;
+    line-height: 22px;
+    word-wrap: break-word;
+}

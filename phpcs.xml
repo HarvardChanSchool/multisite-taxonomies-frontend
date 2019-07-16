@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="HSPH WordPress Coding Standards">
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs"/>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/assets/*</exclude-pattern>
+    <arg name="extensions" value="php"/>
+    <!-- Include the WordPress ruleset, with exclusions. -->
+    <rule ref="WordPress">
+    </rule>
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array" value="multitaxo" />
+        </properties>
+    </rule>
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array" value="multitaxo" />
+        </properties>
+    </rule>
+    <rule ref="WordPress.WP.DeprecatedFunctions">
+        <properties>
+            <property name="minimum_supported_version" value="5.2" />
+        </properties>
+    </rule>
+    <rule ref="WordPress.WP.DeprecatedParameters">
+        <properties>
+            <property name="minimum_supported_version" value="5.2" />
+        </properties>
+    </rule>
+    <rule ref="WordPress.WP.DeprecatedClasses">
+        <properties>
+            <property name="minimum_supported_version" value="5.2" />
+        </properties>
+    </rule>
+    <rule ref="WordPress.Files.FileName">
+        <properties>
+            <property name="is_theme" value="false" />
+        </properties>
+    </rule>
+</ruleset>

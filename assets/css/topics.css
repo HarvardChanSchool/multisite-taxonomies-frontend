@@ -1,0 +1,137 @@
+.multisite-taxonomy-archive.blog .format-status .entry-title,
+.multisite-all-tax-archive.blog .format-status .entry-title {
+    display: block;
+}
+
+.topic-block {
+    display: block;
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.topic-block ul {
+	margin-left: 0;
+}
+
+.topic-list li {
+    float: left;
+    display: inline-block;
+    margin: 0;
+    list-style-type: none;
+}
+
+.topic-list li a {
+	font-family: "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    font-size: 1rem;
+    color: #008cc0;
+    background-color: #ecede5;
+    margin-right: 7px;
+    margin-bottom: 10px;
+    padding: 4px;
+    padding-left: 11px;
+    padding-right: 11px;
+    display: block;
+}
+
+.wf-active .topic-list li a {
+    font-family: 'proxima-nova', "Helvetica Neue", sans-serif;
+}
+
+.multisite-term-archive .entry-content .entry-header {
+	padding: 0;
+}
+
+.multisite-term-archive .entry-content .entry-header {
+	margin: 0;
+	margin-bottom: 16px;
+	margin-bottom: 1rem;
+}
+
+.multisite-term-archive .entry-content article {
+	border-top: 1px solid #D2CFC8;
+}
+
+.multisite-term-archive .entry-content .entry-header .page-image-thumbnail {
+	display: block;
+}
+
+.multisite-term-archive .entry-content .entry-header img.wp-post-image {
+	margin-left: 0;
+	margin-right: 16px;
+	margin-right: 1rem;
+	margin-bottom: 16px;
+	margin-bottom: 1rem;
+	float: left;
+	max-width: 150px !important;
+	max-height: 200px !important;
+	height: auto !important;
+	width: auto !important;
+	display: block;
+}
+
+.multisite-term-archive .entry-header .entry-title {
+    display: block !important;
+}
+
+.multisite-term-archive .entry-content .entry-header .entry-title a {
+    color: #008CC0;
+	font-size: 16px;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.2;
+	font-family: "Helvetica Neue", sans-serif;
+}
+
+.multisite-term-archive .entry-content .entry-header h2.entry-title {
+	font-size: 16px;
+	font-size: 1rem;
+	line-height: 1.2px;
+	font-weight: bold;
+	padding: 0;
+	margin-top: 14px;
+	margin-bottom: 4px;
+}
+
+.multisite-term-archive .entry-content .entry-summary {
+	font-size: 13px;
+	font-size: 0.813rem;
+	margin: 0 0 1.714285714rem;
+	line-height: 1.6;
+	padding-left: 0;
+}
+
+.multisite-term-archive ul.paging {
+    display: block;
+}
+
+.multisite-term-archive ul.paging li {
+    display: inline-block;
+    margin: 0;
+    list-style-type: none;
+}
+
+.multisite-term-archive ul.paging li .current {
+    color: #000;
+    padding: 7px 11px 7px 11px;
+    margin-left: 1px;
+    background-color: #C1C3B1;
+	font-family: "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-size: 0.875rem;
+    line-height: 1.71428571;
+    display: inline-block;
+}
+
+.multisite-term-archive ul.paging li a {
+    margin: 0px 0px 2px 0px;
+    color: #008CC0;
+    padding: 7px 11px 7px 11px;
+    margin-left: 1px;
+	font-family: "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-size: 0.875rem;
+    line-height: 1.71428571;
+    text-decoration: none;
+}
