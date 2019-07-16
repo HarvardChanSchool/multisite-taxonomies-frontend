@@ -40,6 +40,18 @@ class Multisite_Taxonomy_Archive_Pages {
 
 		// Filter for the body class for the archive pages.
 		add_filter( 'body_class', array( $this, 'archive_pages_body_class' ) );
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles_and_scripts' ) );
+	}
+
+	/**
+	 * Enqueue the frontend styles and scripts.
+	 *
+	 * @return void
+	 */
+	public function enqueue_styles_and_scripts() {
+		wp_enqueue_script( 'hsph-plugin-tagging', HSPH_PLUGIN_TAGGING_ASSETS_URL . '/js/hsph-plugin-tagging.js', array( 'jquery' ), HSPH_PLUGIN_TAGGING_VERSION, true );
+		wp_enqueue_style( 'hsph-plugin-tagging-topics-pages', HSPH_PLUGIN_TAGGING_ASSETS_URL . '/css/topics.css', array(), HSPH_PLUGIN_TAGGING_VERSION );
 	}
 
 	/**
